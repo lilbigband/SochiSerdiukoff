@@ -5,20 +5,14 @@ import random
 from PyQt5.QtGui import QPainter, QColor, QPainterPath
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtCore import Qt, QPointF
-from PyQt5 import uic
+from rbk import Ui_MainWindow
 
-class Example(QMainWindow):
+class Example(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        self.setupUi(self)
         self.do_paint = 's'
-        uic.loadUi('rbk.ui', self)
         self.pushButton.clicked.connect(self.paint)
-
-    def getRandomSize(self):
-        return random.randint(50, 100)
-
-    def getRandomColor(self):
-        return QColor(250, 250, 0)
 
     def paintEvent(self, event):
         qp = QPainter()
@@ -30,21 +24,12 @@ class Example(QMainWindow):
         self.repaint()
 
     def draw_triangle(self, qp):
-        a = self.getRandomSize()
-        d = a * math.tan(math.radians(30))
-        g = random.randint(0, 450)
-
-        pos_top = QPointF(g, g - d * 2)
-        pos_left = QPointF(g - d * 2, g + a)
-        pos_right = QPointF(g + d * 2, g + a)
-
-        qp.setBrush(self.getRandomColor())
-        path = QPainterPath()
-        path.moveTo(pos_top)
-        path.lineTo(pos_right)
-        path.lineTo(pos_left)
-
-        qp.drawPath(path)
+        d = random.randint(50, 300)
+        self.colour_r = random.randint(0, 255)
+        self.colour_g = random.randint(0, 255)
+        self.colour_b = random.randint(0, 255)
+        qp.setBrush(QColor(self.colour_r, self.colour_g, self.colour_b))
+        qp.drawEllipse(random.randint(50, 400), random.randint(50, 250), d, d)
 
 
 if __name__ == '__main__':
