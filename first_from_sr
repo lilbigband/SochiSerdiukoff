@@ -1,0 +1,36 @@
+import sys
+
+data = list(map(str.strip, sys.stdin))
+line = data[0]
+count = 0
+counts = []
+all_counts = {}
+
+for i in line:
+    all_counts[i] = 0
+for i in line:
+    for j in data[1:]:
+        for x in j:
+            if x == i:
+                count += 1
+        if count != 0:
+            counts.append(count)
+        count = 0
+    Flag = True
+    for j in data[1:]:
+        for x in j:
+            if x == i:
+                count += 1
+        if Flag:
+            if count == min(counts):
+                all_counts[i] = j
+                Flag = False
+        count = 0
+    counts = []
+for i in all_counts:
+    count_b = []
+    for j in all_counts[i]:
+        if j not in count_b:
+            count_b.append(j)
+    counts.append(len(count_b) - 1)
+print(*counts)
